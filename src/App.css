@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eee;
+}
+
+.bg-gray {
+  background-color: #020000bd;
+}
+
+.text-gray {
+  color: #888585;
+}
