@@ -5,6 +5,7 @@ import Login from "../components/auth/Login";
 import Profile from "../components/auth/Profile";
 import Signup from "../components/auth/Signup";
 import UpdateProfile from "../components/auth/UpdateProfile";
+import CreateClass from "../components/home/CreateClass";
 import Home from "../components/home/Home";
 import { useAuth } from "../contexts/AuthContext";
 import AuthRoute from "./AuthRoute";
@@ -18,6 +19,7 @@ function AppRoute() {
       <Switch>
         {/* Classroom */}
         <AuthRoute exact path="/" component={Home} />
+        <AuthRoute exact path="/create-class" component={CreateClass} />
 
         {/* User profile */}
         <AuthRoute path="/profile" component={Profile} />
