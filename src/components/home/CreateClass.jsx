@@ -12,6 +12,7 @@ import { useMsg } from "../../contexts/MsgContext";
 import { useClassroom } from "../../contexts/ClassroomContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { database } from "../../firebase";
+import { useHistory } from "react-router";
 
 function CreateClass() {
   const { setMsg } = useMsg();
@@ -20,6 +21,7 @@ function CreateClass() {
   const [className, setClassName] = useState("");
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +30,7 @@ function CreateClass() {
         className,
         subjectName,
         subjectCode,
-        teacher: { userId: currentUser.uid, email: currentUser.email },
+        teacher: currentUser.uid,
         students: [],
         createdAt: database.getCurrentTimestamp(),
       };
@@ -36,11 +38,12 @@ function CreateClass() {
       if (res.error) {
         setMsg(res.error);
       } else {
-        console.log(database.formatDocument(res.data));
         setMsg(res.msg);
         setClassName("");
         setSubjectName("");
         setSubjectCode("");
+        let { id } = res.data;
+        history.push(`/classroom/${id}`);
       }
     } else {
       setMsg("Empty Fields aren't allowed!");
