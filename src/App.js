@@ -15,9 +15,7 @@ function App() {
         <MsgProvider>
           <ClassroomProvider>
             <Navbar />
-            <div style={{ backgroundColor: "#121212", minHeight: "92vh" }}>
-              <AppRoute />
-            </div>
+            <AppRoute />
             <CustomSnackBar />
           </ClassroomProvider>
         </MsgProvider>

@@ -5,13 +5,9 @@
 }
 
 body {
-  background-color: #eee;
+  background-color: #121212;
 }
 
 .bg-gray {
-  background-color: #020000bd;
-}
-
-.text-gray {
-  color: #888585;
+  background-color: #333;
 }

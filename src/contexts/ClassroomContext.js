@@ -15,11 +15,11 @@ export function ClassroomProvider({ children }) {
   async function getClassesAsTeacher() {
     try {
       setLoading(true);
-      let data = await database
+      let res = await database
         .classrooms()
         .where("teacher", "==", currentUser.uid)
         .get();
-      data = data.docs.map((doc) => database.formatDocument(doc));
+      const data = res.docs.map((doc) => database.formatDocument(doc));
       console.log(data);
       return data;
     } catch (error) {
@@ -33,11 +33,11 @@ export function ClassroomProvider({ children }) {
   async function getClassesAsStudent() {
     try {
       setLoading(true);
-      let data = await database
+      let res = await database
         .classrooms()
-        .where("students", "array-contains", currentUser.uid)
+        .where("students", "array-contains", currentUser.email)
         .get();
-      data = data.docs.map((doc) => database.formatDocument(doc));
+      const data = res.docs.map((doc) => database.formatDocument(doc));
       console.log(data);
       return data;
     } catch (error) {
@@ -62,9 +62,48 @@ export function ClassroomProvider({ children }) {
     }
   }
 
+  async function joinClass(classId, email, userId) {
+    try {
+      setLoading(true);
+      const res = await database.classrooms().doc(classId).get();
+      // console.log(res);
+      if (!res.data()) {
+        return { error: "Invalid class id" };
+      }
+
+      const data = database.formatDocument(res);
+      let msg = "";
+
+      if (data.teacher.toString() === userId.toString()) {
+        msg = "You are already the teacher of this class";
+      } else if (data.students.includes(email)) {
+        msg = "You are already a student of this class";
+      } else {
+        await database
+          .classrooms()
+          .doc(classId)
+          .update({ students: [...data.students, email] });
+        msg = "New class joined";
+      }
+
+      return { data, msg };
+    } catch (error) {
+      console.log(error.message);
+      return { error: error.message };
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <ClassroomContext.Provider
-      value={{ loading, getClassesAsTeacher, getClassesAsStudent, createClass }}
+      value={{
+        loading,
+        getClassesAsTeacher,
+        getClassesAsStudent,
+        createClass,
+        joinClass,
+      }}
     >
       {children}
     </ClassroomContext.Provider>
