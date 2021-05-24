@@ -6,6 +6,7 @@ import Profile from "../components/auth/Profile";
 import Signup from "../components/auth/Signup";
 import UpdateProfile from "../components/auth/UpdateProfile";
 import Classroom from "../components/classroom/Classroom";
+import PostToClass from "../components/classroom/PostToClass";
 import CreateClass from "../components/home/CreateClass";
 import Home from "../components/home/Home";
 import JoinClass from "../components/home/JoinClass";
@@ -24,6 +25,11 @@ function AppRoute() {
         <AuthRoute exact path="/create-class" component={CreateClass} />
         <AuthRoute exact path="/join-class" component={JoinClass} />
         <AuthRoute exact path="/classroom/:classId" component={Classroom} />
+        <AuthRoute
+          exact
+          path="/classroom/:classId/post"
+          component={PostToClass}
+        />
 
         {/* User profile */}
         <AuthRoute path="/profile" component={Profile} />

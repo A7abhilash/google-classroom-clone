@@ -3,14 +3,7 @@ import { database } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useMsg } from "../contexts/MsgContext";
 
-export const ROOT_FOLDER = {
-  name: "Home",
-  id: null,
-  parentId: null,
-  path: [{ name: "Home", id: null }],
-};
-
-function useFolder(classId = null) {
+function useClass(classId = null) {
   const { setMsg } = useMsg();
   const { currentUser } = useAuth();
   const [currentClass, setCurrentClass] = useState(null);
@@ -50,7 +43,9 @@ function useFolder(classId = null) {
     }
   }, [classId, currentUser]);
 
+  //upload file in classroom folder
+
   return { classId, currentClass, materials, assignments, error };
 }
 
-export default useFolder;
+export default useClass;

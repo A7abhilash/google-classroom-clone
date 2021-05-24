@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { database } from "../firebase";
+import { ROOT_FOLDER } from "../hooks/useFolder";
 import { useAuth } from "./AuthContext";
 
 const ClassroomContext = React.createContext();
@@ -53,6 +54,7 @@ export function ClassroomProvider({ children }) {
       setLoading(true);
       const data = await database.classrooms().add(newClass);
       //   console.log(res);
+      await createClassroomFolder(newClass.subjectName, data.id);
       return { data, msg: "New class created" };
     } catch (error) {
       console.log(error.message);
@@ -84,6 +86,7 @@ export function ClassroomProvider({ children }) {
           .doc(classId)
           .update({ students: [...data.students, email] });
         msg = "New class joined";
+        await createClassroomFolder(data.className, classId);
       }
 
       return { data, msg };
@@ -94,6 +97,22 @@ export function ClassroomProvider({ children }) {
       setLoading(false);
     }
   }
+
+  //create folder for new classroom
+  const createClassroomFolder = async (name, id) => {
+    try {
+      let path = [...ROOT_FOLDER.path];
+      let newFolder = {
+        name: `${name} - Classroom`,
+        parentId: null,
+        path,
+        createdAt: database.getCurrentTimestamp(),
+      };
+      await database.folders(currentUser.uid).doc(id).set(newFolder);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <ClassroomContext.Provider
