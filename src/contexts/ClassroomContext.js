@@ -86,7 +86,7 @@ export function ClassroomProvider({ children }) {
           .doc(classId)
           .update({ students: [...data.students, email] });
         msg = "New class joined";
-        await createClassroomFolder(data.className, classId);
+        await createClassroomFolder(data.subjectName, classId);
       }
 
       return { data, msg };

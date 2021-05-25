@@ -9,20 +9,25 @@ import {
 } from "@material-ui/core";
 import CenteredContainer from "../../containers/CenteredContainer";
 import useClass from "../../hooks/useClass";
-import { useAuth } from "../../contexts/AuthContext";
 import { useMsg } from "../../contexts/MsgContext";
-import { useParams } from "react-router";
+import { Redirect, useHistory, useParams } from "react-router";
 import Loading from "../../containers/Loading";
 
 function PostToClass() {
   const { classId } = useParams();
-  const { currentUser } = useAuth();
   const { setMsg } = useMsg();
-  const { loading, currentClass } = useClass(classId);
+  const {
+    loading,
+    currentClass,
+    postNewMaterial,
+    isTeacher,
+    uploadFileToDriveAndPostContent,
+  } = useClass(classId);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [document, setDocument] = useState("");
   const [type, setType] = useState("Material");
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,20 +42,36 @@ function PostToClass() {
     }
   };
 
-  const handlePostMaterial = () => {
-    console.log("Material");
+  const handlePostMaterial = async () => {
+    // console.log("Material");
     if (document) {
-      //
+      const newMaterial = {
+        classId,
+        title,
+        description,
+        file: {},
+      };
+      await uploadFileToDriveAndPostContent(
+        newMaterial,
+        document,
+        postNewMaterial
+      );
     } else {
       setMsg("Material is missing");
     }
   };
+
   const handlePostAssignment = () => {
     console.log("Assignment");
   };
 
-  if (loading) {
-    return <Loading />;
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
+  if (currentClass && !isTeacher) {
+    alert("Unauthorized access");
+    return <Redirect to={`/classroom/${classId}`} />;
   }
 
   return (
@@ -104,7 +125,7 @@ function PostToClass() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            Create
+            Post
           </Button>
         </CardActions>
       </Card>

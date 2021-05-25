@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, useParams } from "react-router";
-import { Badge, Button, Container, Grid, Typography } from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@material-ui/core";
 import Loading from "../../containers/Loading";
 import useClass from "./../../hooks/useClass";
 import SidebarOptions from "./SidebarOptions";

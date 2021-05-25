@@ -30,6 +30,11 @@ function AppRoute() {
           path="/classroom/:classId/post"
           component={PostToClass}
         />
+        <AuthRoute
+          exact
+          path="/classroom/:classId/material/:materialId"
+          component={Classroom}
+        />
 
         {/* User profile */}
         <AuthRoute path="/profile" component={Profile} />
