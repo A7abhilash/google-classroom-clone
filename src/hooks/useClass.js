@@ -55,6 +55,26 @@ function useClass(classId = null) {
     }
   }, [classId, currentUser]);
 
+  // Get current class' materials
+  useEffect(() => {
+    if (currentUser) {
+      // console.log("class id: ", classId);
+      if (classId) {
+        setLoading(true);
+        database
+          .materials()
+          .where("classId", "==", classId)
+          .get()
+          .then((data) => {
+            setMaterials(data.docs.map((doc) => database.formatDocument(doc)));
+            setLoading(false);
+          });
+      } else {
+        setCurrentClass(null);
+      }
+    }
+  }, [classId, currentUser]);
+
   //upload file in classroom folder
   const uploadFileToDriveAndPostContent = async (
     material,

@@ -1,20 +1,46 @@
 import React, { useState } from "react";
 import { Redirect, useParams } from "react-router";
-import { Button, Container, Grid, Typography } from "@material-ui/core";
+import { Button, Container, Grid, Paper, Typography } from "@material-ui/core";
 import Loading from "../../containers/Loading";
 import useClass from "./../../hooks/useClass";
-import SidebarOptions from "./SidebarOptions";
+import SelectOptions from "./SelectOptions";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import DisplayClassPosts from "./DisplayClassPosts";
 
 function Classroom() {
   const { currentUser } = useAuth();
   const { classId } = useParams();
-  const { error, currentClass } = useClass(classId);
+  const { error, currentClass, materials } = useClass(classId);
   const [selectedOption, setSelectedOption] = useState("Materials");
 
-  const handleSelection = (option) => {
-    setSelectedOption(option);
+  const switchContent = () => {
+    switch (selectedOption) {
+      case "Assignments":
+        return (
+          <DisplayClassPosts
+            items={materials}
+            type="assignment"
+            classLink={`/classroom/${classId}`}
+          />
+        );
+      case "People":
+        return (
+          <DisplayClassPosts
+            items={materials}
+            type=""
+            classLink={`/classroom/${classId}`}
+          />
+        );
+      default:
+        return (
+          <DisplayClassPosts
+            items={materials}
+            type="material"
+            classLink={`/classroom/${classId}`}
+          />
+        );
+    }
   };
 
   if (error) {
@@ -53,11 +79,28 @@ function Classroom() {
         )}
       </Grid>
       <Grid container alignItems="flex-start" className="mt-4">
-        <Grid item lg={3} xs={12} style={{ paddingLeft: 15, paddingRight: 15 }}>
-          <SidebarOptions
+        <Grid
+          item
+          lg={3}
+          md={3}
+          xs={12}
+          style={{ paddingLeft: 7, paddingRight: 7 }}
+        >
+          <Paper
+            style={{ height: 200, backgroundColor: "#5DA3FA" }}
+            elevation={3}
+          >
+            <div className="p-3">
+              <p>Pending assignments</p>
+            </div>
+          </Paper>
+        </Grid>
+        <Grid item lg={8} md={8} xs={12} className="mx-auto mt-3 mt-md-0">
+          <SelectOptions
             selectedOption={selectedOption}
-            handleSelection={handleSelection}
+            setSelectedOption={setSelectedOption}
           />
+          {materials && switchContent()}
         </Grid>
       </Grid>
     </Container>
