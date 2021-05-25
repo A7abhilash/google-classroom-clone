@@ -10,8 +10,7 @@ import {
 import CenteredContainer from "../../containers/CenteredContainer";
 import useClass from "../../hooks/useClass";
 import { useMsg } from "../../contexts/MsgContext";
-import { Redirect, useHistory, useParams } from "react-router";
-import Loading from "../../containers/Loading";
+import { Redirect, useParams } from "react-router";
 
 function PostToClass() {
   const { classId } = useParams();
@@ -27,7 +26,6 @@ function PostToClass() {
   const [description, setDescription] = useState("");
   const [document, setDocument] = useState("");
   const [type, setType] = useState("Material");
-  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,10 +62,6 @@ function PostToClass() {
   const handlePostAssignment = () => {
     console.log("Assignment");
   };
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   if (currentClass && !isTeacher) {
     alert("Unauthorized access");

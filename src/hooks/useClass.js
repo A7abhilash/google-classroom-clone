@@ -120,6 +120,7 @@ function useClass(classId = null) {
               url: downloadURL,
               name: file.name,
             };
+            material["createdAt"] = database.getCurrentTimestamp();
             postContent(material);
           });
         }

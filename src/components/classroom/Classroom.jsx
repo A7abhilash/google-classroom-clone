@@ -49,58 +49,60 @@ function Classroom() {
 
   return currentClass !== null ? (
     <Container maxWidth="md">
-      <Grid
-        item
-        lg={12}
-        xs={12}
-        className="p-3 mt-4 d-flex justify-content-between"
-        style={{
-          backgroundColor: "#1B98F5",
-          borderRadius: 10,
-        }}
-      >
-        <div className="d-block">
-          <Typography variant="h4">{currentClass.subjectName}</Typography>
-          <Typography variant="h6" className="text-light">
-            {currentClass.className} - {currentClass.subjectCode}
-          </Typography>
-        </div>
-        {currentClass.teacher.toString() === currentUser.uid.toString() && (
-          <div>
-            <Link
-              className="text-decoration-none"
-              to={`/classroom/${currentClass.id}/post`}
-            >
-              <Button variant="contained" color="secondary" size="small">
-                Post
-              </Button>
-            </Link>
-          </div>
-        )}
-      </Grid>
-      <Grid container alignItems="flex-start" className="mt-4">
+      <Grid>
         <Grid
           item
-          lg={3}
-          md={3}
+          lg={12}
           xs={12}
-          style={{ paddingLeft: 7, paddingRight: 7 }}
+          className="p-3 mt-4 d-flex justify-content-between"
+          style={{
+            backgroundColor: "#1B98F5",
+            borderRadius: 10,
+          }}
         >
-          <Paper
-            style={{ height: 200, backgroundColor: "#5DA3FA" }}
-            elevation={3}
-          >
-            <div className="p-3">
-              <p>Pending assignments</p>
+          <div className="d-block">
+            <Typography variant="h4">{currentClass.subjectName}</Typography>
+            <Typography variant="h6" className="text-light">
+              {currentClass.className} - {currentClass.subjectCode}
+            </Typography>
+          </div>
+          {currentClass.teacher.toString() === currentUser.uid.toString() && (
+            <div>
+              <Link
+                className="text-decoration-none"
+                to={`/classroom/${currentClass.id}/post`}
+              >
+                <Button variant="contained" color="secondary" size="small">
+                  Post
+                </Button>
+              </Link>
             </div>
-          </Paper>
+          )}
         </Grid>
-        <Grid item lg={8} md={8} xs={12} className="mx-auto mt-3 mt-md-0">
-          <SelectOptions
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
-          {materials && switchContent()}
+        <Grid container alignItems="flex-start" className="mt-4">
+          <Grid
+            item
+            lg={3}
+            md={3}
+            xs={12}
+            style={{ paddingLeft: 7, paddingRight: 7 }}
+          >
+            <Paper
+              style={{ height: 200, backgroundColor: "#5DA3FA" }}
+              elevation={3}
+            >
+              <div className="p-3">
+                <p>Pending assignments</p>
+              </div>
+            </Paper>
+          </Grid>
+          <Grid item lg={8} md={8} xs={12} className="mx-auto mt-3 mt-md-0">
+            <SelectOptions
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+            {materials && switchContent()}
+          </Grid>
         </Grid>
       </Grid>
     </Container>
