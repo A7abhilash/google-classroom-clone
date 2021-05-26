@@ -12,7 +12,8 @@ import DisplayClassPeople from "./DisplayClassPeople";
 function Classroom() {
   const { currentUser } = useAuth();
   const { classId } = useParams();
-  const { error, currentClass, materials, isTeacher } = useClass(classId);
+  const { error, currentClass, materials, assignments, isTeacher } =
+    useClass(classId);
   const [selectedOption, setSelectedOption] = useState("Assignments");
 
   const switchContent = () => {
@@ -20,9 +21,10 @@ function Classroom() {
       case "Assignments":
         return (
           <DisplayClassPosts
-            items={materials}
+            items={assignments}
             type="assignment"
             classLink={`/classroom/${classId}`}
+            isTeacher={isTeacher}
           />
         );
       case "People":
@@ -62,7 +64,7 @@ function Classroom() {
         >
           <div className="d-block">
             <Typography variant="h4">{currentClass.subjectName}</Typography>
-            <Typography variant="h6" className="text-light">
+            <Typography variant="h6" className="text-info">
               {currentClass.className} - {currentClass.subjectCode}
             </Typography>
           </div>

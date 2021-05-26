@@ -73,6 +73,28 @@ function useClass(classId = null) {
     }
   }, [classId, currentUser]);
 
+  // Get current class' assignments
+  useEffect(() => {
+    if (currentUser) {
+      // console.log("class id: ", classId);
+      if (classId) {
+        setLoading(true);
+        database
+          .assignments()
+          .where("classId", "==", classId)
+          .get()
+          .then((data) => {
+            setAssignments(
+              data.docs.map((doc) => database.formatDocument(doc))
+            );
+            setLoading(false);
+          });
+      } else {
+        setCurrentClass(null);
+      }
+    }
+  }, [classId, currentUser]);
+
   //upload file in classroom folder
   const uploadFileToDriveAndPostContent = async (
     content,

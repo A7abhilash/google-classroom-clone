@@ -52,7 +52,7 @@ function Material() {
                 className="text-decoration-none text-dark"
               >
                 <i
-                  className="fa fa-file-alt"
+                  className="fa fa-book-open"
                   style={{ marginRight: "5px" }}
                 ></i>
                 {material?.file.name}

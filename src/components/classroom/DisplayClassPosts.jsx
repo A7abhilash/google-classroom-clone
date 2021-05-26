@@ -1,8 +1,21 @@
 import { Grid, Paper } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-function Posts({ items, type, classLink }) {
+function Posts({ items, type, classLink, isTeacher }) {
+  const { currentUser } = useAuth();
+
+  const isSubmitted = (submissions) => {
+    if (!isTeacher && type === "assignment") {
+      if (submissions.find((i) => i.email === currentUser.email)) {
+        return "text-success";
+      }
+      return "text-danger";
+    }
+    return "text-light";
+  };
+
   return (
     <Grid container className="my-3">
       {items?.length ? (
@@ -14,9 +27,13 @@ function Posts({ items, type, classLink }) {
                 className="text-decoration-none"
               >
                 <div className="py-2 px-3">
-                  <h5 className="text-info">
+                  <h5 className="text-light">
                     <i
-                      className="fas fa-file-alt"
+                      className={`${
+                        type === "material"
+                          ? "fas fa-book-open"
+                          : "fas fa-file-alt"
+                      } ${isSubmitted(item.submissions)}`}
                       style={{ marginRight: 10 }}
                     ></i>
                     {item.title}
