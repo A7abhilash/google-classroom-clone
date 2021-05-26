@@ -7,12 +7,13 @@ import SelectOptions from "./SelectOptions";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import DisplayClassPosts from "./DisplayClassPosts";
+import DisplayClassPeople from "./DisplayClassPeople";
 
 function Classroom() {
   const { currentUser } = useAuth();
   const { classId } = useParams();
   const { error, currentClass, materials } = useClass(classId);
-  const [selectedOption, setSelectedOption] = useState("Materials");
+  const [selectedOption, setSelectedOption] = useState("People");
 
   const switchContent = () => {
     switch (selectedOption) {
@@ -26,10 +27,9 @@ function Classroom() {
         );
       case "People":
         return (
-          <DisplayClassPosts
-            items={materials}
-            type=""
-            classLink={`/classroom/${classId}`}
+          <DisplayClassPeople
+            people={currentClass?.students}
+            teacher={currentClass?.teacher}
           />
         );
       default:

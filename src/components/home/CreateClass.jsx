@@ -30,7 +30,7 @@ function CreateClass() {
         className,
         subjectName,
         subjectCode,
-        teacher: currentUser.uid,
+        teacher: currentUser.email,
         students: [],
         createdAt: database.getCurrentTimestamp(),
       };

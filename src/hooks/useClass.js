@@ -17,12 +17,10 @@ function useClass(classId = null) {
   const history = useHistory();
 
   const hasAccessToClass = (data) => {
-    setIsTeacher(data.teacher.toString() === currentUser.uid.toString());
-    setIsStudent(data.students.includes(currentUser.email));
-    return (
-      data.teacher.toString() === currentUser.uid.toString() ||
-      data.students.includes(currentUser.email)
-    );
+    const { email } = currentUser;
+    setIsTeacher(data.teacher === email);
+    setIsStudent(data.students.includes(email));
+    return data.teacher === email || data.students.includes(email);
   };
 
   // Get current class details

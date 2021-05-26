@@ -18,7 +18,7 @@ export function ClassroomProvider({ children }) {
       setLoading(true);
       let res = await database
         .classrooms()
-        .where("teacher", "==", currentUser.uid)
+        .where("teacher", "==", currentUser.email)
         .get();
       const data = res.docs.map((doc) => database.formatDocument(doc));
       console.log(data);
