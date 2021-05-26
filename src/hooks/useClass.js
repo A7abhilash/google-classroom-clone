@@ -62,6 +62,7 @@ function useClass(classId = null) {
         database
           .materials()
           .where("classId", "==", classId)
+          // .orderBy("createdAt")
           .get()
           .then((data) => {
             setMaterials(data.docs.map((doc) => database.formatDocument(doc)));
@@ -82,6 +83,7 @@ function useClass(classId = null) {
         database
           .assignments()
           .where("classId", "==", classId)
+          // .orderBy("createdAt")
           .get()
           .then((data) => {
             setAssignments(
@@ -114,13 +116,21 @@ function useClass(classId = null) {
             //   console.log("Upload is " + progress + "% done");
             switch (snapshot.state) {
               case "paused":
-                setMsg("Upload is paused. Progress: " + progress + "% done");
+                setMsg(
+                  "Upload is paused. Progress: " +
+                    Math.floor(progress) +
+                    "% done"
+                );
                 break;
               case "running":
-                setMsg("Upload is running. Progress: " + progress + "% done");
+                setMsg(
+                  "Upload is running. Progress: " +
+                    Math.floor(progress) +
+                    "% done"
+                );
                 break;
               default:
-                setMsg("Upload is " + progress + "% done");
+                setMsg("Upload is " + Math.floor(progress) + "% done");
             }
           },
           (err) => {
@@ -190,6 +200,35 @@ function useClass(classId = null) {
     }
   };
 
+  const submitAssignment = async (assignment) => {
+    try {
+      delete assignment.createdAt;
+      let { assignmentId } = assignment;
+      delete assignment.assignmentId;
+      setLoading(true);
+      setMsg("Submitting your assignment...");
+      const res = await database.assignments().doc(assignmentId).get();
+      // console.log(res);
+      if (!res.data()) {
+        return { error: "Invalid class id" };
+      }
+
+      const data = database.formatDocument(res);
+      await database
+        .assignments()
+        .doc(assignmentId)
+        .update({ submissions: [...data.submissions, assignment] });
+      let { id } = res;
+      history.push(`/classroom/${classId}/assignment/${id}`);
+      setMsg("Assignment Submitted");
+    } catch (err) {
+      console.log(err.message);
+      setMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     classId,
@@ -202,6 +241,7 @@ function useClass(classId = null) {
     uploadFileToDriveAndPostContent,
     postNewMaterial,
     postNewAssignment,
+    submitAssignment,
   };
 }
 

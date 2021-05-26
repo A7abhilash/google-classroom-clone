@@ -64,7 +64,7 @@ function Classroom() {
         >
           <div className="d-block">
             <Typography variant="h4">{currentClass.subjectName}</Typography>
-            <Typography variant="h6" className="text-info">
+            <Typography variant="h6" color="secondary">
               {currentClass.className} - {currentClass.subjectCode}
             </Typography>
           </div>
@@ -74,7 +74,7 @@ function Classroom() {
                 className="text-decoration-none"
                 to={`/classroom/${currentClass.id}/post`}
               >
-                <Button variant="contained" color="secondary" size="small">
+                <Button variant="contained" className="bg-info" size="small">
                   Post
                 </Button>
               </Link>

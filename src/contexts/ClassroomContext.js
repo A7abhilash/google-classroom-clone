@@ -19,6 +19,7 @@ export function ClassroomProvider({ children }) {
       let res = await database
         .classrooms()
         .where("teacher", "==", currentUser.email)
+        // .orderBy("createdAt")
         .get();
       const data = res.docs.map((doc) => database.formatDocument(doc));
       console.log(data);
@@ -37,6 +38,7 @@ export function ClassroomProvider({ children }) {
       let res = await database
         .classrooms()
         .where("students", "array-contains", currentUser.email)
+        // .orderBy("createdAt")
         .get();
       const data = res.docs.map((doc) => database.formatDocument(doc));
       console.log(data);

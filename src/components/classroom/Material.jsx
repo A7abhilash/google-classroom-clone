@@ -21,7 +21,7 @@ function Material() {
         setMaterial(data);
       } else {
         setMsg("No material found...");
-        history.push("/");
+        history.push(`/classroom/${classId}`);
       }
     }
   }, [materials, materialId]);
@@ -37,7 +37,7 @@ function Material() {
           <div className="py-2 border-bottom border-secondary">
             <Typography variant="h5">{material?.title}</Typography>
             <Typography variant="caption">
-              {new Date(material?.createdAt.seconds).toDateString()}
+              {new Date(Date(material?.createdAt.seconds)).toLocaleString()}
             </Typography>
           </div>
           <div className="my-2">
