@@ -5,6 +5,7 @@ import Login from "../components/auth/Login";
 import Profile from "../components/auth/Profile";
 import Signup from "../components/auth/Signup";
 import UpdateProfile from "../components/auth/UpdateProfile";
+import Assignment from "../components/classroom/Assignment";
 import Classroom from "../components/classroom/Classroom";
 import Material from "../components/classroom/Material";
 import PostToClass from "../components/classroom/PostToClass";
@@ -30,6 +31,11 @@ function AppRoute() {
           exact
           path="/classroom/:classId/material/:materialId"
           component={Material}
+        />
+        <AuthRoute
+          exact
+          path="/classroom/:classId/assignment/:assignmentId"
+          component={Assignment}
         />
         <AuthRoute
           exact

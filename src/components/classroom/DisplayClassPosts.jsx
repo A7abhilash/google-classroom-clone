@@ -7,7 +7,7 @@ function Posts({ items, type, classLink }) {
     <Grid container className="my-3">
       {items?.length ? (
         items.map((item) => (
-          <Grid item lg={12} xs={12} key={item.id}>
+          <Grid item lg={12} xs={12} key={item.id} className="mb-2">
             <Paper elevation={3} style={{ backgroundColor: "#333" }}>
               <Link
                 to={`${classLink}/${type}/${item.id}`}

@@ -12,8 +12,8 @@ import DisplayClassPeople from "./DisplayClassPeople";
 function Classroom() {
   const { currentUser } = useAuth();
   const { classId } = useParams();
-  const { error, currentClass, materials } = useClass(classId);
-  const [selectedOption, setSelectedOption] = useState("People");
+  const { error, currentClass, materials, isTeacher } = useClass(classId);
+  const [selectedOption, setSelectedOption] = useState("Assignments");
 
   const switchContent = () => {
     switch (selectedOption) {
@@ -66,7 +66,7 @@ function Classroom() {
               {currentClass.className} - {currentClass.subjectCode}
             </Typography>
           </div>
-          {currentClass.teacher.toString() === currentUser.uid.toString() && (
+          {isTeacher && (
             <div>
               <Link
                 className="text-decoration-none"

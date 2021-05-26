@@ -18,8 +18,9 @@ function PostToClass() {
   const {
     loading,
     currentClass,
-    postNewMaterial,
     isTeacher,
+    postNewMaterial,
+    postNewAssignment,
     uploadFileToDriveAndPostContent,
   } = useClass(classId);
   const [title, setTitle] = useState("");
@@ -59,8 +60,20 @@ function PostToClass() {
     }
   };
 
-  const handlePostAssignment = () => {
-    console.log("Assignment");
+  const handlePostAssignment = async () => {
+    // console.log("Assignment");
+    const newAssignment = {
+      classId,
+      title,
+      description,
+      file: {},
+      submissions: [],
+    };
+    await uploadFileToDriveAndPostContent(
+      newAssignment,
+      document,
+      postNewAssignment
+    );
   };
 
   if (currentClass && !isTeacher) {
@@ -93,23 +106,30 @@ function PostToClass() {
             multiline
             rows={7}
           />
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="form-control my-2"
-          >
-            <option value="Material">Material</option>
-            <option value="Assignment">Assignment</option>
-          </select>
-          <input
-            type="file"
-            name="File"
-            className="form-control my-2"
-            onChange={(e) => {
-              e.preventDefault();
-              setDocument(e.target.files[0]);
-            }}
-          />
+          <div className="form-group">
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="form-control my-2"
+            >
+              <option value="Material">Material</option>
+              <option value="Assignment">Assignment</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <input
+              type="file"
+              name="File"
+              className="form-control my-2"
+              onChange={(e) => {
+                e.preventDefault();
+                setDocument(e.target.files[0]);
+              }}
+            />
+            <label className="text-muted">
+              *Document for assignment is an optional
+            </label>
+          </div>
         </CardContent>
         <CardActions>
           <Button

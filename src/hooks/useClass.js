@@ -75,57 +75,64 @@ function useClass(classId = null) {
 
   //upload file in classroom folder
   const uploadFileToDriveAndPostContent = async (
-    material,
+    content,
     file,
     postContent
   ) => {
-    try {
-      const uploadTask = storage.ref().child(`/gd/${Date.now()}`).put(file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          //   console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              setMsg("Upload is paused. Progress: " + progress + "% done");
-              break;
-            case "running":
-              setMsg("Upload is running. Progress: " + progress + "% done");
-              break;
-            default:
-              setMsg("Upload is " + progress + "% done");
+    content["createdAt"] = database.getCurrentTimestamp();
+    if (file) {
+      try {
+        const uploadTask = storage.ref().child(`/gd/${Date.now()}`).put(file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            //   console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                setMsg("Upload is paused. Progress: " + progress + "% done");
+                break;
+              case "running":
+                setMsg("Upload is running. Progress: " + progress + "% done");
+                break;
+              default:
+                setMsg("Upload is " + progress + "% done");
+            }
+          },
+          (err) => {
+            setMsg(err.code);
+          },
+          async () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref
+              .getDownloadURL()
+              .then(async (downloadURL) => {
+                // console.log('File available at', downloadURL);
+                setMsg("Saving file to drive...");
+                let newFile = {
+                  name: file.name,
+                  url: downloadURL,
+                  parentId: classId,
+                  createdAt: database.getCurrentTimestamp(),
+                };
+                await database.files(currentUser.uid).add(newFile);
+                content["file"] = {
+                  url: downloadURL,
+                  name: file.name,
+                };
+                content["createdAt"] = database.getCurrentTimestamp();
+                postContent(content);
+              });
           }
-        },
-        (err) => {
-          setMsg(err.code);
-        },
-        async () => {
-          // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
-            // console.log('File available at', downloadURL);
-            setMsg("Saving file to drive...");
-            let newFile = {
-              name: file.name,
-              url: downloadURL,
-              parentId: classId,
-              createdAt: database.getCurrentTimestamp(),
-            };
-            await database.files(currentUser.uid).add(newFile);
-            material["file"] = {
-              url: downloadURL,
-              name: file.name,
-            };
-            material["createdAt"] = database.getCurrentTimestamp();
-            postContent(material);
-          });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      setMsg("Failed to upload your file!!");
+        );
+      } catch (err) {
+        console.log(err);
+        setMsg("Failed to upload your file!!");
+      }
+    } else {
+      postContent(content);
     }
   };
 
@@ -145,6 +152,22 @@ function useClass(classId = null) {
     }
   };
 
+  const postNewAssignment = async (assignment) => {
+    try {
+      setLoading(true);
+      setMsg("Posting assignment...");
+      const res = await database.assignments().add(assignment);
+      let { id } = res;
+      history.push(`/classroom/${classId}/assignment/${id}`);
+      setMsg("New assignment posted");
+    } catch (err) {
+      console.log(err.message);
+      setMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     classId,
@@ -156,6 +179,7 @@ function useClass(classId = null) {
     error,
     uploadFileToDriveAndPostContent,
     postNewMaterial,
+    postNewAssignment,
   };
 }
 
