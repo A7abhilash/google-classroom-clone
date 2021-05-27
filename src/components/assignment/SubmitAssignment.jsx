@@ -1,7 +1,13 @@
 import React from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 
-function SubmitAssignment({ loading, submission, setDocument, handleSubmit }) {
+function SubmitAssignment({
+  loading,
+  submission,
+  document,
+  setDocument,
+  handleSubmit,
+}) {
   return (
     <Grid
       item
@@ -39,7 +45,7 @@ function SubmitAssignment({ loading, submission, setDocument, handleSubmit }) {
         </label>
         {(document || submission !== null) && (
           <p className="ml-2 text-light">
-            {document.name || submission.file.name}
+            {document.name || submission?.file?.name}
           </p>
         )}
       </div>

@@ -69,6 +69,7 @@ function Assignment() {
           <SubmitAssignment
             loading={loading}
             submission={submission}
+            document={document}
             setDocument={setDocument}
             handleSubmit={handleSubmit}
           />
