@@ -31,8 +31,8 @@ function Posts({ items, type, classLink, isTeacher }) {
                     <i
                       className={`${
                         type === "material"
-                          ? "fas fa-book-open"
-                          : "fas fa-file-alt"
+                          ? "fas fa-file-alt"
+                          : "fas fa-clipboard-list"
                       } ${isSubmitted(item.submissions)}`}
                       style={{ marginRight: 10 }}
                     ></i>

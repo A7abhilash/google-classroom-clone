@@ -106,6 +106,7 @@ function useClass(classId = null) {
     content["createdAt"] = database.getCurrentTimestamp();
     if (file) {
       try {
+        setLoading(true);
         const uploadTask = storage.ref().child(`/gd/${Date.now()}`).put(file);
         uploadTask.on(
           "state_changed",
@@ -162,6 +163,8 @@ function useClass(classId = null) {
       } catch (err) {
         console.log(err);
         setMsg("Failed to upload your file!!");
+      } finally {
+        setLoading(false);
       }
     } else {
       postContent(content);
@@ -218,8 +221,7 @@ function useClass(classId = null) {
         .assignments()
         .doc(assignmentId)
         .update({ submissions: [...data.submissions, assignment] });
-      let { id } = res;
-      history.push(`/classroom/${classId}/assignment/${id}`);
+      history.replace(`/classroom/${classId}`);
       setMsg("Assignment Submitted");
     } catch (err) {
       console.log(err.message);
