@@ -1,5 +1,5 @@
-import { Button, Grid, Typography } from "@material-ui/core";
 import React from "react";
+import { Button, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 function Header({ currentClass, isTeacher }) {
@@ -24,7 +24,7 @@ function Header({ currentClass, isTeacher }) {
         <div>
           <Link
             className="text-decoration-none"
-            to={`/classroom/${currentClass.id}/post`}
+            to={`/classroom/${currentClass?.id}/post`}
           >
             <Button variant="contained" className="bg-info" size="small">
               Post

@@ -1,5 +1,5 @@
-import { Grid, Paper } from "@material-ui/core";
 import React from "react";
+import { Grid, Paper } from "@material-ui/core";
 
 function PendingWork({ assignments, classId }) {
   return (
@@ -9,6 +9,7 @@ function PendingWork({ assignments, classId }) {
       md={3}
       xs={12}
       style={{ paddingLeft: 7, paddingRight: 7 }}
+      className="mt-3"
     >
       <Paper style={{ height: 200, backgroundColor: "#5DA3FA" }} elevation={3}>
         <div className="p-3">

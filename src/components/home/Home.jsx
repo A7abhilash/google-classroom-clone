@@ -3,11 +3,12 @@ import { Container, Divider, Grid } from "@material-ui/core";
 import { useClassroom } from "../../contexts/ClassroomContext";
 import Class from "./Class";
 import NoClass from "./NoClass";
+import Loading from "../../containers/Loading";
 
 function Home() {
   const [classesAsTeacher, setClassesAsTeacher] = useState(null);
   const [classesAsStudent, setClassesAsStudent] = useState(null);
-  const { getClassesAsTeacher, getClassesAsStudent } = useClassroom();
+  const { loading, getClassesAsTeacher, getClassesAsStudent } = useClassroom();
 
   useEffect(() => {
     getClassesAsTeacher().then((docs) => setClassesAsTeacher(docs));
@@ -16,6 +17,10 @@ function Home() {
   useEffect(() => {
     getClassesAsStudent().then((docs) => setClassesAsStudent(docs));
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Container maxWidth="md">

@@ -10,7 +10,11 @@ function Details({ content }) {
           {content?.title}
         </Typography>
         <Typography variant="caption" className="text-muted">
-          {new Date(Date(content?.createdAt.seconds)).toLocaleString()}
+          {`${new Date(
+            content?.createdAt.seconds * 1000
+          ).toDateString()} at ${new Date(
+            content?.createdAt.seconds * 1000
+          ).toLocaleTimeString()}`}
         </Typography>
       </div>
       <div className="my-2 text-light">

@@ -1,5 +1,5 @@
-import { Grid } from "@material-ui/core";
 import React from "react";
+import { Grid } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 
 function DisplayClassPeople({ people, teacher }) {

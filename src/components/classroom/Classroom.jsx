@@ -15,7 +15,7 @@ function Classroom() {
   const { classId } = useParams();
   const { error, currentClass, materials, assignments, isTeacher } =
     useClass(classId);
-  const [selectedOption, setSelectedOption] = useState("Assignments");
+  const [selectedOption, setSelectedOption] = useState("Materials");
 
   const switchContent = () => {
     switch (selectedOption) {
@@ -48,9 +48,6 @@ function Classroom() {
 
   const getPendingWork = () => {
     if (assignments) {
-      // return assignments.filter((item) =>
-      //   item.submissions.filter((i) => i.email !== currentUser.email)
-      // );
       let list = [];
       assignments.forEach((assignment) => {
         let flag = 1;
@@ -75,11 +72,11 @@ function Classroom() {
       {currentClass && (
         <Header currentClass={currentClass} isTeacher={isTeacher} />
       )}
-      <Grid container alignItems="flex-start" className="mt-4">
+      <Grid container alignItems="flex-start" className="mt-1">
         {currentClass && !isTeacher && (
           <PendingWork assignments={getPendingWork()} classId={classId} />
         )}
-        <Grid item lg={8} md={8} xs={12} className="mx-auto mt-3 mt-md-0">
+        <Grid item lg={8} md={8} xs={12} className="mx-auto mt-3">
           <SelectOptions
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
