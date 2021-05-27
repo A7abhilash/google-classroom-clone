@@ -54,9 +54,7 @@ function CreateClass() {
     <CenteredContainer>
       <Card className="col-md-4">
         <CardContent>
-          <Typography variant="h6" color="textSecondary">
-            Create New Class
-          </Typography>
+          <Typography variant="h6">Create New Class</Typography>
           <TextField
             className="w-100 my-2"
             label="Class name"

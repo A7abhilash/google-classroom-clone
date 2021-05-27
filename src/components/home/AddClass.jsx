@@ -14,14 +14,26 @@ function AddClass() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: "absolute",
+        bottom: 30,
+        right: 30,
+      }}
+    >
       <Button
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        className="mb-2"
+        className="mb-2 bg-warning shadow-lg"
+        variant="contained"
+        style={{
+          borderRadius: "50%",
+          height: 60,
+          width: 50,
+        }}
       >
-        <i className="fas fa-plus fa-lg text-light"></i>
+        <i className="fas fa-plus fa-lg text-dark"></i>
       </Button>
       <Menu
         id="simple-menu"

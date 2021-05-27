@@ -4,6 +4,7 @@ import { useClassroom } from "../../contexts/ClassroomContext";
 import Class from "./Class";
 import NoClass from "./NoClass";
 import Loading from "../../containers/Loading";
+import AddClass from "./AddClass";
 
 function Home() {
   const [classesAsTeacher, setClassesAsTeacher] = useState(null);
@@ -53,6 +54,8 @@ function Home() {
       {classesAsTeacher?.length === 0 && classesAsStudent?.length === 0 && (
         <NoClass />
       )}
+
+      <AddClass />
     </Container>
   );
 }

@@ -41,9 +41,7 @@ function JoinClass() {
     <CenteredContainer>
       <Card className="col-md-4">
         <CardContent>
-          <Typography variant="h6" color="textSecondary">
-            Join Class
-          </Typography>
+          <Typography variant="h6">Join Class</Typography>
           <TextField
             className="w-100 my-2"
             label="Class code"

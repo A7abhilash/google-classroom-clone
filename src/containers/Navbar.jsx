@@ -28,7 +28,7 @@ function Navbar() {
         </div>
         {currentUser && (
           <div className="d-flex align-items-center">
-            <AddClass />
+            {/* <AddClass /> */}
             <h4 className="ml-2">
               <Link to="/profile" className="text-light">
                 <i className="fas fa-user-circle fa-lg"></i>
