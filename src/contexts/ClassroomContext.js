@@ -1,7 +1,14 @@
 import React, { useState, useContext } from "react";
 import { database } from "../firebase";
-import { ROOT_FOLDER } from "../hooks/useFolder";
 import { useAuth } from "./AuthContext";
+
+//For google drive
+const ROOT_FOLDER = {
+  name: "Home",
+  id: null,
+  parentId: null,
+  path: [{ name: "Home", id: null }],
+};
 
 const ClassroomContext = React.createContext();
 

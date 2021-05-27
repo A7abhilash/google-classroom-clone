@@ -220,7 +220,7 @@ function useClass(classId = null) {
       await database
         .assignments()
         .doc(assignmentId)
-        .update({ submissions: [...data.submissions, assignment] });
+        .update({ submissions: [assignment, ...data.submissions] });
       history.replace(`/classroom/${classId}`);
       setMsg("Assignment Submitted");
     } catch (err) {

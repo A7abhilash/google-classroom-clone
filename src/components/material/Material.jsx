@@ -1,7 +1,6 @@
-import { Button, Card, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { Grid } from "@material-ui/core";
 import { Redirect, useHistory, useParams } from "react-router";
-import CenteredContainer from "../../containers/CenteredContainer";
 import Details from "../../containers/Details";
 import Loading from "../../containers/Loading";
 import { useMsg } from "../../contexts/MsgContext";
@@ -25,7 +24,7 @@ function Material() {
         history.push(`/classroom/${classId}`);
       }
     }
-  }, [materials, materialId]);
+  }, [materials, materialId, classId, setMsg, history]);
 
   if (error) {
     return <Redirect to="/" />;

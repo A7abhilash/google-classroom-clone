@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import { Redirect, useHistory, useParams } from "react-router";
 import Loading from "../../containers/Loading";
 import { useAuth } from "../../contexts/AuthContext";
@@ -39,7 +39,7 @@ function Assignment() {
         history.push(`/classroom/${classId}`);
       }
     }
-  }, [assignments, assignmentId]);
+  }, [assignments, assignmentId, classId, currentUser, history, setMsg]);
 
   const handleSubmit = async () => {
     if (document) {
@@ -62,7 +62,7 @@ function Assignment() {
     return <Redirect to="/" />;
   }
   return assignment !== null ? (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Grid container spacing={4} className="mt-4 align-items-start">
         <Details content={assignment} />
         {!isTeacher && (
@@ -74,15 +74,7 @@ function Assignment() {
           />
         )}
       </Grid>
-      {isTeacher && (
-        <Grid
-          container
-          spacing={3}
-          className="mt-2 p-2 border-top border-warning"
-        >
-          <Submissions submissions={assignment?.submissions} />
-        </Grid>
-      )}
+      {isTeacher && <Submissions submissions={assignment?.submissions} />}
     </Container>
   ) : (
     <Loading />
